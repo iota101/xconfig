@@ -83,11 +83,11 @@ func TestValue_PanicOnMissing(t *testing.T) {
 		name string
 		fn   func()
 	}{
-		{"String", func() { cfg.Get("missing").String() }},
-		{"Int", func() { cfg.Get("missing").Int() }},
-		{"Int64", func() { cfg.Get("missing").Int64() }},
-		{"Float64", func() { cfg.Get("missing").Float64() }},
-		{"Bool", func() { cfg.Get("missing").Bool() }},
+		{"String", func() { _ = cfg.Get("missing").String() }},
+		{"Int", func() { _ = cfg.Get("missing").Int() }},
+		{"Int64", func() { _ = cfg.Get("missing").Int64() }},
+		{"Float64", func() { _ = cfg.Get("missing").Float64() }},
+		{"Bool", func() { _ = cfg.Get("missing").Bool() }},
 	}
 
 	for _, tt := range methods {
