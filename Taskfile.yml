@@ -1,0 +1,104 @@
+version: '3'
+
+vars:
+  MODULE: github.com/iota101/xconfig
+
+tasks:
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list
+
+  test:
+    desc: Run tests
+    cmds:
+      - go test ./...
+
+  test:race:
+    desc: Run tests with race detector
+    cmds:
+      - go test -race ./...
+
+  test:cover:
+    desc: Run tests with coverage
+    cmds:
+      - go test -race -cover ./...
+
+  test:verbose:
+    desc: Run tests with verbose output
+    cmds:
+      - go test -v ./...
+
+  fmt:
+    desc: Format code
+    cmds:
+      - go fmt ./...
+
+  vet:
+    desc: Run go vet
+    cmds:
+      - go vet ./...
+
+  lint:
+    desc: Run all linters (fmt, vet)
+    cmds:
+      - task: fmt
+      - task: vet
+
+  tidy:
+    desc: Tidy go.mod
+    cmds:
+      - go mod tidy
+
+  check:
+    desc: Run all checks (lint + test)
+    cmds:
+      - task: lint
+      - task: test:cover
+
+  # Tagging
+  tag:
+    desc: Create a new version tag (usage: task tag -- v1.0.0)
+    cmds:
+      - |
+        if [ -z "{{.CLI_ARGS}}" ]; then
+          echo "Usage: task tag -- v1.0.0"
+          exit 1
+        fi
+        git tag -a {{.CLI_ARGS}} -m "Release {{.CLI_ARGS}}"
+        echo "Created tag {{.CLI_ARGS}}"
+        echo "Run 'git push origin {{.CLI_ARGS}}' to push the tag"
+
+  tag:push:
+    desc: Create and push a new version tag (usage: task tag:push -- v1.0.0)
+    cmds:
+      - |
+        if [ -z "{{.CLI_ARGS}}" ]; then
+          echo "Usage: task tag:push -- v1.0.0"
+          exit 1
+        fi
+        git tag -a {{.CLI_ARGS}} -m "Release {{.CLI_ARGS}}"
+        git push origin {{.CLI_ARGS}}
+        echo "Created and pushed tag {{.CLI_ARGS}}"
+
+  tag:list:
+    desc: List all version tags
+    cmds:
+      - git tag -l "v*" --sort=-v:refname
+
+  tag:latest:
+    desc: Show the latest version tag
+    cmds:
+      - git describe --tags --abbrev=0 2>/dev/null || echo "No tags found"
+
+  tag:delete:
+    desc: Delete a tag locally and remotely (usage: task tag:delete -- v1.0.0)
+    cmds:
+      - |
+        if [ -z "{{.CLI_ARGS}}" ]; then
+          echo "Usage: task tag:delete -- v1.0.0"
+          exit 1
+        fi
+        git tag -d {{.CLI_ARGS}} 2>/dev/null || true
+        git push origin --delete {{.CLI_ARGS}} 2>/dev/null || true
+        echo "Deleted tag {{.CLI_ARGS}}"
