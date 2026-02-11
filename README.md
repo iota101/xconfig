@@ -3,7 +3,7 @@
 [![CI](https://github.com/iota101/xconfig/actions/workflows/ci.yml/badge.svg)](https://github.com/iota101/xconfig/actions/workflows/ci.yml)
 [![Go Reference](https://pkg.go.dev/badge/github.com/iota101/xconfig.svg)](https://pkg.go.dev/github.com/iota101/xconfig)
 [![Go Report Card](https://goreportcard.com/badge/github.com/iota101/xconfig)](https://goreportcard.com/report/github.com/iota101/xconfig)
-[![Latest Release](https://img.shields.io/github/v/tag/iota101/xconfig?label=release&sort=semver)](https://github.com/iota101/xconfig/releases)
+[![Latest Tag](https://img.shields.io/github/v/tag/iota101/xconfig?label=latest%20tag&sort=semver)](https://github.com/iota101/xconfig/tags)
 
 Typed configuration from YAML files and environment variables for Go.
 
